@@ -34,6 +34,11 @@ Straight channel: slide-in diffuser
   - "air_gap" is the distance from the strip to the underside of the diffuser.
     The finished body is taller than strip + air_gap by the groove, roof rise
     and top lip.
+  - "mount_count" sets how many mounting ears (or flange screw holes) the
+    channel gets. They are spaced evenly along "length": equal gaps between
+    them, and half a gap at each end. Centers are at (i+0.5)*length/mount_count.
+    Example at length 200: count 3 gives 33.3, 100 and 166.7 mm. Keep the
+    pitch (length/mount_count) larger than "ear_length" or the ears touch.
   - Mounting ears are square where they meet the body; only the two outer
     corners are rounded.
   - "outer_corner_radius" rounds the channel ends in plan view. The rim follows it.
