@@ -1,0 +1,30 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "$fn": "64",
+            "air_gap": "4.5",
+            "base": "1",
+            "diffuser_overlap": "0.80000000000000004",
+            "diffuser_thickness": "0.80000000000000004",
+            "ear_length": "10",
+            "ear_thickness": "2",
+            "ear_width": "8",
+            "flange_thickness": "2.4000000000000004",
+            "flange_width": "10",
+            "length": "200",
+            "mount_count": "3",
+            "mount_side": "left",
+            "mount_style": "single",
+            "outer_corner_radius": "1",
+            "part": "body",
+            "preview_gap": "0",
+            "screw_diameter": "3.3999999999999999",
+            "screw_edge_offset": "4",
+            "strip_clearance": "0.5",
+            "strip_thickness": "0.80000000000000004",
+            "strip_width": "8",
+            "wall": "1"
+        }
+    }
+}
