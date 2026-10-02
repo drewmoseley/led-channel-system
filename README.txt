@@ -31,6 +31,9 @@ Straight channel: slide-in diffuser
   - "diffuser_overlap" is how far the diffuser reaches into each wall (groove
     depth). "diffuser_clearance" is the slide fit. "top_lip" is the material
     above the groove at the cavity edge.
+  - "diffuser_width_clearance" narrows the diffuser by that total amount (split
+    evenly between both sides) so it does not bind in the groove. It also
+    applies to the corner and T diffusers.
   - "air_gap" is the distance from the strip to the underside of the diffuser.
     The finished body is taller than strip + air_gap by the groove, roof rise
     and top lip.
