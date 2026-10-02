@@ -14,6 +14,8 @@ diffuser_thickness = 0.8; // [0.4:0.1:2.5]
 diffuser_overlap = 0.8; // [0.2:0.1:2]
 // Clearance around the diffuser in its pocket
 diffuser_clearance = 0.2; // [0:0.05:0.5]
+// Total diffuser width reduction for a sliding fit (split evenly between both sides)
+diffuser_width_clearance = 0.1; // [0:0.05:0.5]
 // Material above the diffuser groove (straight channel only; end cap plate covers it)
 top_lip = 0.8; // [0.4:0.1:2]
 // Extra wall thickness added outward around the diffuser pocket (45 degree underside)
@@ -196,7 +198,7 @@ module open_channel_body(kind="rounded") {
 module path_diffuser(kind="rounded") {
     translate([0,0,groove_floor+diffuser_clearance/2+preview_gap])
         linear_extrude(height=diffuser_thickness)
-            selected_path_2d(kind,-(wall-(diffuser_overlap-diffuser_clearance)));
+            selected_path_2d(kind,-(wall-(diffuser_overlap-diffuser_clearance))-diffuser_width_clearance/2);
 }
 
 // Cross-section of the straight channel profile, extruded along +x.

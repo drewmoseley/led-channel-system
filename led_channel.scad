@@ -18,6 +18,8 @@ diffuser_thickness = 0.8; // [0.4:0.1:2.5]
 diffuser_overlap = 0.8; // [0.2:0.1:2]
 // Diffuser slides into a groove cut into each wall; this is how far it reaches into the wall
 diffuser_clearance = 0.2; // [0:0.05:0.5]
+// Total diffuser width reduction for a sliding fit (split evenly between both sides)
+diffuser_width_clearance = 0.1; // [0:0.05:0.5]
 // Material above the groove that holds the diffuser in
 top_lip = 0.8; // [0.4:0.1:2]
 // Extra wall thickness added outward around the groove (45 degree underside, no support needed)
@@ -142,8 +144,8 @@ module body() {
 }
 
 module diffuser() {
-    w = inside_width + 2*(diffuser_overlap - diffuser_clearance);
-    translate([0,wall-(diffuser_overlap-diffuser_clearance),groove_floor+diffuser_clearance/2+preview_gap])
+    w = inside_width + 2*(diffuser_overlap - diffuser_clearance) - diffuser_width_clearance;
+    translate([0,wall-(diffuser_overlap-diffuser_clearance)+diffuser_width_clearance/2,groove_floor+diffuser_clearance/2+preview_gap])
         cube([length,w,diffuser_thickness]);
 }
 
