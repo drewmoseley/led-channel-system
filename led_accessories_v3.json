@@ -3,10 +3,10 @@
     "parameterSets": {
         "New set 1": {
             "$fn": "64",
-            "air_gap": "4.5",
+            "air_gap": "5.5",
             "base": "1",
             "diffuser_overlap": "0.80000000000000004",
-            "diffuser_thickness": "0.80000000000000004",
+            "diffuser_thickness": "1.2",
             "preview_gap": "0",
             "screw_diameter": "3.3999999999999999",
             "strip_clearance": "0.5",

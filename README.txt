@@ -34,6 +34,11 @@ Straight channel: slide-in diffuser
   - "diffuser_width_clearance" narrows the diffuser by that total amount (split
     evenly between both sides) so it does not bind in the groove. It also
     applies to the corner and T diffusers.
+  - "diffuser_count" 2 (straight channel only) cuts a second groove above the
+    first for a stacked second diffuser. "diffuser2_gap" is the air between the
+    two diffusers (minimum 1.8 mm), "diffuser2_thickness" the second plate.
+    Use part=diffuser2 for the second plate. Two layers diffuse better but are
+    taller and dimmer.
   - "air_gap" is the distance from the strip to the underside of the diffuser.
     The finished body is taller than strip + air_gap by the groove, roof rise
     and top lip.

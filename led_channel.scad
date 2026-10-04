@@ -1,7 +1,7 @@
 /* Parametric straight LED channel - Customizer ready */
 
 /* [Output] */
-part = "assembly"; // [assembly,body,diffuser]
+part = "assembly"; // [assembly,body,diffuser,diffuser2]
 
 /* [Channel] */
 length = 150; // [20:1:1000]
@@ -26,6 +26,13 @@ top_lip = 0.8; // [0.4:0.1:2]
 rim_extra = 1.0; // [0:0.1:3]
 preview_gap = 0; // [0:0.5:10]
 
+/* [Second diffuser] */
+// 2 stacks a second diffuser in its own groove above the first
+diffuser_count = 1; // [1,2]
+// Air between the top of diffuser 1 and the bottom of diffuser 2
+diffuser2_gap = 3; // [1.8:0.1:10]
+diffuser2_thickness = 1.2; // [0.4:0.1:2.5]
+
 /* [Mounting] */
 mount_style = "single"; // [none,single,double,alternating,flange]
 mount_side = "left"; // [left,right]
@@ -48,11 +55,16 @@ outside_width = inside_width + 2*wall;
 inside_height = strip_thickness + air_gap;
 groove_height = diffuser_thickness + diffuser_clearance;
 groove_floor = base + inside_height;
+groove2_height = diffuser2_thickness + diffuser_clearance;
+groove2_floor = groove_floor + diffuser_thickness + diffuser2_gap;
 // groove roof slopes up 45 degrees toward the cavity (self-supporting), so add its rise to the height
-body_height = groove_floor + groove_height + diffuser_overlap + top_lip;
+top_floor = diffuser_count > 1 ? groove2_floor : groove_floor;
+top_groove_height = diffuser_count > 1 ? groove2_height : groove_height;
+body_height = top_floor + top_groove_height + diffuser_overlap + top_lip;
 selected_side = mount_side == "right" ? 1 : -1;
 
 assert(wall + rim_extra - diffuser_overlap >= 0.8, "wall behind the diffuser groove is under 0.8 mm; raise rim_extra or lower diffuser_overlap");
+assert(diffuser_count < 2 || groove2_floor >= groove_floor + groove_height + diffuser_overlap + 0.8, "diffuser2_gap too small: less than 0.8 mm of wall between the two grooves");
 assert(screw_edge_offset < max(ear_width,flange_width), "screw hole must remain inside mount");
 
 module rounded_rect_2d(x,y,r) {
@@ -109,6 +121,18 @@ module groove_rim(side) {
     }
 }
 
+module diffuser_groove(floor_z,h) {
+    translate([-0.1,0,0]) rotate([90,0,90]) linear_extrude(height=length+0.2)
+        polygon([
+            [wall-diffuser_overlap,                floor_z],
+            [wall+inside_width+diffuser_overlap,   floor_z],
+            [wall+inside_width+diffuser_overlap,   floor_z+h],
+            [wall+inside_width,                    floor_z+h+diffuser_overlap],
+            [wall,                                 floor_z+h+diffuser_overlap],
+            [wall-diffuser_overlap,                floor_z+h]
+        ]);
+}
+
 module body() {
     union() {
         difference() {
@@ -119,17 +143,10 @@ module body() {
             }
             // LED cavity, open at the top
             translate([-0.1,wall,base]) cube([length+0.2,inside_width,body_height]);
-            // diffuser groove, open at both ends so the diffuser slides in
+            // diffuser groove(s), open at both ends so each diffuser slides in
             // roof is lowest at the groove back and rises 45 degrees toward the cavity
-            translate([-0.1,0,0]) rotate([90,0,90]) linear_extrude(height=length+0.2)
-                polygon([
-                    [wall-diffuser_overlap,                groove_floor],
-                    [wall+inside_width+diffuser_overlap,   groove_floor],
-                    [wall+inside_width+diffuser_overlap,   groove_floor+groove_height],
-                    [wall+inside_width,                    groove_floor+groove_height+diffuser_overlap],
-                    [wall,                                 groove_floor+groove_height+diffuser_overlap],
-                    [wall-diffuser_overlap,                groove_floor+groove_height]
-                ]);
+            diffuser_groove(groove_floor,groove_height);
+            if (diffuser_count > 1) diffuser_groove(groove2_floor,groove2_height);
         }
 
         if (mount_style == "single")
@@ -143,12 +160,20 @@ module body() {
     }
 }
 
-module diffuser() {
+module diffuser_plate(floor_z,t) {
     w = inside_width + 2*(diffuser_overlap - diffuser_clearance) - diffuser_width_clearance;
-    translate([0,wall-(diffuser_overlap-diffuser_clearance)+diffuser_width_clearance/2,groove_floor+diffuser_clearance/2+preview_gap])
-        cube([length,w,diffuser_thickness]);
+    translate([0,wall-(diffuser_overlap-diffuser_clearance)+diffuser_width_clearance/2,floor_z+diffuser_clearance/2])
+        cube([length,w,t]);
 }
+
+module diffuser() { diffuser_plate(groove_floor+preview_gap,diffuser_thickness); }
+module diffuser2() { diffuser_plate(groove2_floor+2*preview_gap,diffuser2_thickness); }
 
 if (part == "body") body();
 else if (part == "diffuser") diffuser();
-else { color("dimgray") body(); color([1,1,1,0.55]) diffuser(); }
+else if (part == "diffuser2") diffuser2();
+else {
+    color("dimgray") body();
+    color([1,1,1,0.55]) diffuser();
+    if (diffuser_count > 1) color([1,1,1,0.55]) diffuser2();
+}
