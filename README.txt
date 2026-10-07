@@ -90,6 +90,10 @@ dropdown, or from the command line:
 A set loaded with -P overrides -D on the same parameter, so to change one value
 (for example length) pass every set value with -D instead of using -P.
 
+With the flatpak OpenSCAD, give -o and the .scad file as absolute paths under
+your home directory. A relative -o resolves against the sandbox, not the shell
+directory, and /tmp is not writable.
+
 Export the body and the diffuser as separate STL files. Do not reuse one export
 for both.
 
