@@ -5,7 +5,7 @@ part = "electrical_t_assembly"; // [rounded_corner_assembly,rounded_corner_body,
 
 /* [Shared Channel Profile] */
 strip_width = 10; // [6:0.5:20]
-strip_clearance = 0.5; // [0:0.1:2]
+strip_clearance = 1.0; // [0:0.1:2]
 strip_thickness = 2.2; // [0.5:0.1:5]
 wall = 1.6; // [0.8:0.1:4]
 base = 1.6; // [0.8:0.1:4]

@@ -39,6 +39,15 @@ Straight channel: slide-in diffuser
     two diffusers (minimum 1.8 mm), "diffuser2_thickness" the second plate.
     Use part=diffuser2 for the second plate. Two layers diffuse better but are
     taller and dimmer.
+  - "strip_lip" (both/left/right/none) adds a ledge over each strip PCB edge so
+    the strip stays put if its adhesive fails. "strip_lip_overlap" is how far
+    the ledge covers the edge (must stay clear of the LED package, see
+    "strip_led_width"), "strip_lip_thickness" its thickness, and
+    "strip_lip_clearance" the gap between the PCB top and the ledge underside.
+    Size that gap to clear solder joints and let the strip slide in from the
+    end. The ledges are anchored to the walls, so with a loose strip the
+    overlap varies by up to "strip_clearance" from side to side. Corners and
+    T junctions have no lip.
   - "air_gap" is the distance from the strip to the underside of the diffuser.
     The finished body is taller than strip + air_gap by the groove, roof rise
     and top lip.
@@ -70,11 +79,16 @@ Clips
 
 PARAMETER SETS
 --------------
-Both .json files hold a set named "New set 1" for an 8 mm wide, 0.8 mm thick
-strip (wall 1, base 1, air_gap 4.5). In OpenSCAD, pick it in the Customizer
-parameter set dropdown, or from the command line:
+led_channel.json holds a set named "Bar Shelf Lighting": 187.5 mm units for an
+8 mm wide, 0.8 mm thick strip with strip lips (wall 1, base 1, air_gap 5.5,
+strip_clearance 1.0). led_accessories_v3.json holds a matching set named
+"New set 1". In OpenSCAD, pick the set in the Customizer parameter set
+dropdown, or from the command line:
 
-  openscad -o body.stl -p led_channel.json -P "New set 1" -D 'part="body"' led_channel.scad
+  openscad -o body.stl -p led_channel.json -P "Bar Shelf Lighting" -D 'part="body"' led_channel.scad
+
+A set loaded with -P overrides -D on the same parameter, so to change one value
+(for example length) pass every set value with -D instead of using -P.
 
 Export the body and the diffuser as separate STL files. Do not reuse one export
 for both.
@@ -140,5 +154,6 @@ Size the feed wire and power supply for the combined current of both branches.
 
 STATUS
 ------
-The design has been rendered but not yet test printed. Expect to tune
-diffuser_clearance and check the bridging under the top lip.
+The straight channel with strip lips has been test printed and fits. The
+corner, T and electrical T accessories render clean but are not yet test
+printed.

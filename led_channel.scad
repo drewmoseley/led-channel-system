@@ -6,12 +6,24 @@ part = "assembly"; // [assembly,body,diffuser,diffuser2]
 /* [Channel] */
 length = 150; // [20:1:1000]
 strip_width = 10; // [6:0.5:20]
-strip_clearance = 0.5; // [0:0.1:2]
+strip_clearance = 1.0; // [0:0.1:2]
 strip_thickness = 2.2; // [0.5:0.1:5]
 wall = 1.6; // [0.8:0.1:4]
 base = 1.6; // [0.8:0.1:4]
 air_gap = 5; // [1:0.5:20]
 outer_corner_radius = 1.2; // [0:0.2:4]
+
+/* [Strip retention] */
+// Lips over the strip PCB edges that hold it down if the adhesive fails
+strip_lip = "both"; // [both,left,right,none]
+// How far each lip covers the strip edge; must fit in the margin between the LED and the strip edge
+strip_lip_overlap = 0.8; // [0.3:0.1:2]
+// Lip thickness (printed as a 2-layer-plus bridge over the strip)
+strip_lip_thickness = 0.8; // [0.4:0.1:2]
+// Gap between the strip PCB top and the lip underside; must clear solder joints and let the strip slide in
+strip_lip_clearance = 1.0; // [0:0.05:1.5]
+// Width of the LED package across the strip; limits the lip overlap
+strip_led_width = 3.5; // [2:0.1:6]
 
 /* [Diffuser] */
 diffuser_thickness = 0.8; // [0.4:0.1:2.5]
@@ -65,6 +77,8 @@ selected_side = mount_side == "right" ? 1 : -1;
 
 assert(wall + rim_extra - diffuser_overlap >= 0.8, "wall behind the diffuser groove is under 0.8 mm; raise rim_extra or lower diffuser_overlap");
 assert(diffuser_count < 2 || groove2_floor >= groove_floor + groove_height + diffuser_overlap + 0.8, "diffuser2_gap too small: less than 0.8 mm of wall between the two grooves");
+assert(strip_lip == "none" || strip_lip_overlap <= (strip_width - strip_led_width)/2 - strip_clearance/2 + 0.001, "strip_lip_overlap reaches the LED package; lower it or the strip_led_width");
+assert(strip_lip == "none" || strip_thickness + strip_lip_clearance + strip_lip_thickness + 0.8 <= inside_height, "strip lip leaves under 0.8 mm below the diffuser groove; raise air_gap");
 assert(screw_edge_offset < max(ear_width,flange_width), "screw hole must remain inside mount");
 
 module rounded_rect_2d(x,y,r) {
@@ -133,6 +147,14 @@ module diffuser_groove(floor_z,h) {
         ]);
 }
 
+// Ledge over one strip edge; reaches from the wall past the strip clearance
+module strip_lip_bar(side) {
+    reach = strip_lip_overlap + strip_clearance/2 + 0.02;
+    y0 = side < 0 ? wall-0.02 : wall + inside_width - reach + 0.02;
+    translate([0,y0,base+strip_thickness+strip_lip_clearance])
+        cube([length,reach,strip_lip_thickness]);
+}
+
 module body() {
     union() {
         difference() {
@@ -148,6 +170,9 @@ module body() {
             diffuser_groove(groove_floor,groove_height);
             if (diffuser_count > 1) diffuser_groove(groove2_floor,groove2_height);
         }
+
+        if (strip_lip == "both" || strip_lip == "left") strip_lip_bar(-1);
+        if (strip_lip == "both" || strip_lip == "right") strip_lip_bar(1);
 
         if (mount_style == "single")
             for (p=mount_positions) if (p > 0 && p < length) mounting_ear(p,selected_side);

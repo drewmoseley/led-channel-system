@@ -1,7 +1,7 @@
 {
     "fileFormatVersion": "1",
     "parameterSets": {
-        "New set 1": {
+        "Bar Shelf Lighting": {
             "$fn": "64",
             "air_gap": "5.5",
             "base": "1",
@@ -21,7 +21,12 @@
             "preview_gap": "0",
             "screw_diameter": "3.3999999999999999",
             "screw_edge_offset": "4",
-            "strip_clearance": "0.5",
+            "strip_clearance": "1.0",
+            "strip_led_width": "3.5",
+            "strip_lip": "both",
+            "strip_lip_clearance": "1.0",
+            "strip_lip_overlap": "0.8",
+            "strip_lip_thickness": "0.8",
             "strip_thickness": "0.80000000000000004",
             "strip_width": "8",
             "wall": "1"

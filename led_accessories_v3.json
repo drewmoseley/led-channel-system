@@ -9,7 +9,7 @@
             "diffuser_thickness": "1.2",
             "preview_gap": "0",
             "screw_diameter": "3.3999999999999999",
-            "strip_clearance": "0.5",
+            "strip_clearance": "1.0",
             "strip_thickness": "0.80000000000000004",
             "strip_width": "8",
             "wall": "1",
