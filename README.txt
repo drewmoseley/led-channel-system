@@ -83,7 +83,8 @@ led_channel.json holds a set named "Bar Shelf Lighting": 187.5 mm units for an
 8 mm wide, 0.8 mm thick strip with strip lips (wall 1, base 1, air_gap 5.5,
 strip_clearance 1.0). led_accessories_v3.json holds a matching set named
 "New set 1". In OpenSCAD, pick the set in the Customizer parameter set
-dropdown, or from the command line:
+dropdown, or from the command line. Both files also hold "RGBWW 10mm"
+(10 mm wide, 1 mm thick strip, 5 mm LED, air_gap 5.5):
 
   openscad -o body.stl -p led_channel.json -P "Bar Shelf Lighting" -D 'part="body"' led_channel.scad
 

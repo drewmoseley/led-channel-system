@@ -14,6 +14,20 @@
             "strip_width": "8",
             "wall": "1",
             "clip_side_height": "3.5"
+        },
+        "RGBWW 10mm": {
+            "$fn": "64",
+            "air_gap": "5.5",
+            "base": "1",
+            "diffuser_overlap": "0.80000000000000004",
+            "diffuser_thickness": "1.2",
+            "preview_gap": "0",
+            "screw_diameter": "3.3999999999999999",
+            "strip_clearance": "1.0",
+            "strip_thickness": "1",
+            "strip_width": "10",
+            "wall": "1",
+            "clip_side_height": "3.5"
         }
     }
 }
