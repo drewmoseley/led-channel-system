@@ -132,6 +132,22 @@ PRINTING AND ASSEMBLY
 3. Install the LED strip in the cavity, then slide the diffuser into the groove.
 4. For corners and T parts, drop the diffuser into the open pocket and secure it.
 
+Diffuser print settings (white or natural PLA/PETG, 1.2 mm plate):
+- Print flat. 0.2 mm layers (0.12-0.16 mm for smoother light).
+- Solid plate: 2 walls, no gaps, 100% fill. No brim.
+- Top/bottom pattern monotonic or concentric. Rectilinear or grid shows
+  stripes when lit.
+- Textured PEI gives a matte underside that scatters light. Face it toward
+  the LEDs.
+- Reduce first-layer squish or enable elephant-foot compensation. The groove
+  clearance is only 0.1 mm wide and 0.2 mm thick, so a flared first layer
+  jams the slide.
+- PETG: keep part cooling low so the ends do not lift. Warped ends bind.
+- Outer walls about 40 mm/s for dimensional accuracy.
+- White gives the most even light. Natural/translucent can show LED hot spots
+  at a 4 mm LED-to-diffuser distance. Use diffuser_count = 2 or white to fix.
+- Print a 30 mm diffuser section and test-fit it before the full length.
+
 Electrical T:
 1. Print electrical_t_body normally, channel base on the build plate.
 2. Print electrical_t_box with its closed bottom on the build plate.
